@@ -46,7 +46,7 @@ export default function Header() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">News Blitzz</h1>
-              <p className="text-[10px] text-gray-500 dark:text-gray-400 tracking-widest uppercase">India's Leading News</p>
+              <p className="text-[10px] text-gray-500 dark:text-gray-300 tracking-widest uppercase">India's Leading News</p>
             </div>
           </Link>
 
@@ -60,7 +60,7 @@ export default function Header() {
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors no-underline ${
                     currentCategory === cat.id
                       ? 'bg-red-700 dark:bg-red-800 text-white'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                 >
                   {cat.label}
@@ -69,7 +69,7 @@ export default function Header() {
             </nav>
             <button
               onClick={toggleTheme}
-              className="ml-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors"
+              className="ml-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-white transition-colors"
               title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -80,13 +80,13 @@ export default function Header() {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-white transition-colors"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-white"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -106,7 +106,7 @@ export default function Header() {
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors no-underline ${
                   currentCategory === cat.id
                     ? 'bg-red-700 dark:bg-red-800 text-white'
-                    : 'text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    : 'text-gray-600 dark:text-white bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
                 {cat.label}
@@ -117,7 +117,7 @@ export default function Header() {
             <Link
               to="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-red-700 dark:hover:text-red-400 no-underline"
+              className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-white hover:text-red-700 dark:hover:text-red-400 no-underline"
             >
               <Shield size={14} />
               Admin Panel
