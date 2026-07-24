@@ -132,10 +132,11 @@ export default function ArticlePage() {
         <img src={article.image_url} alt={article.title} className="w-full rounded-xl object-cover max-h-[500px]" />
       </figure>
 
-<div
-  className="prose prose-lg max-w-none mb-8 prose-invert prose-headings:text-white prose-headings:font-semibold prose-p:text-white prose-p:leading-relaxed prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline prose-strong:text-white prose-li:text-white"
-  dangerouslySetInnerHTML={{ __html: article.content }}
-/>
+      <div
+        className="prose prose-lg max-w-none mb-8 prose-headings:text-gray-900 dark:prose-headings:text-white prose-headings:font-semibold prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-red-700 dark:prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline"
+        dangerouslySetInnerHTML={{ __html: article.content }}
+      />
+
       <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-8">
         <p className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">Share this article:</p>
         <ShareButtons title={article.title} summary={article.summary} slug={article.slug} imageUrl={article.image_url} />
