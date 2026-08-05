@@ -103,12 +103,12 @@ export default function ArticlePage() {
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-6">
-      <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-        <Link to="/" className="hover:text-red-700 dark:hover:text-red-400 no-underline text-gray-500 dark:text-gray-400">Home</Link>
+      <nav className="flex items-center gap-2 text-sm text-gray-500 dark:text-white mb-4">
+        <Link to="/" className="hover:text-red-700 dark:hover:text-red-400 no-underline text-gray-500 dark:text-white">Home</Link>
         <span>/</span>
-        <Link to={`/?category=${article.category}`} className="hover:text-red-700 dark:hover:text-red-400 no-underline text-gray-500 dark:text-gray-400">{getCategoryLabel(article.category)}</Link>
+        <Link to={`/?category=${article.category}`} className="hover:text-red-700 dark:hover:text-red-400 no-underline text-gray-500 dark:text-white">{getCategoryLabel(article.category)}</Link>
         <span>/</span>
-        <span className="text-gray-400 dark:text-gray-500 truncate max-w-[200px]">{article.title}</span>
+        <span className="text-gray-400 dark:text-gray-300 truncate max-w-[200px]">{article.title}</span>
       </nav>
 
       <header className="mb-6">
@@ -133,7 +133,7 @@ export default function ArticlePage() {
       </figure>
 
       <div
-        className="prose prose-lg max-w-none mb-8 prose-headings:text-gray-900 dark:prose-headings:text-white prose-headings:font-semibold prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-red-700 dark:prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline"
+        className="prose prose-lg max-w-none mb-8 prose-headings:text-gray-900 dark:prose-headings:text-white [&_li]:dark:text-white [&_strong]:dark:text-white prose-headings:font-semibold prose-p:text-gray-700 dark:prose-p:text-white prose-p:leading-relaxed prose-a:text-red-700 dark:prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline"
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
 
