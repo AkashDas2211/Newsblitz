@@ -5,15 +5,15 @@ type ShareButtonsProps = { title: string; summary: string; slug: string; imageUr
 
 export default function ShareButtons({ title, summary, slug }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const articleUrl = `${baseUrl}/article/${slug}`;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const shareUrl = `${supabaseUrl}/functions/v1/og-preview/article/${slug}`;
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(articleUrl);
+      await navigator.clipboard.writeText(shareUrl);
     } catch {
       const ta = document.createElement('textarea');
-      ta.value = articleUrl;
+      ta.value = shareUrl;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand('copy');
@@ -24,7 +24,7 @@ export default function ShareButtons({ title, summary, slug }: ShareButtonsProps
   };
 
   const handleWhatsApp = () => {
-    const text = `${articleUrl}`;
+    const text = `${shareUrl}`;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
       window.location.href = `whatsapp://send?text=${encodeURIComponent(text)}`;
@@ -34,18 +34,18 @@ export default function ShareButtons({ title, summary, slug }: ShareButtonsProps
   };
 
   const handleFacebook = () => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`, '_blank', 'width=600,height=400');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
   };
 
   const handleTwitter = () => {
-    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}`, '_blank', 'width=600,height=400');
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
   };
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          url: articleUrl,
+          url: shareUrl,
         });
       } catch (err: any) {
         if (err.name !== 'AbortError') console.error(err);
