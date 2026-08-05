@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase, type Article, CATEGORIES } from '../lib/supabase';
-import { ArrowLeft, Plus, Trash2, CreditCard as Edit3, Loader2, AlertCircle, Save, X, LogOut } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, CreditCard as Edit3, Loader2, AlertCircle, Save, X, LogOut, Upload, ImageIcon } from 'lucide-react';
 
 type FormData = {
   title: string; slug: string; summary: string; content: string;
@@ -25,6 +25,8 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,6 +95,31 @@ export default function AdminPage() {
 
   function handleCancel() {
     setShowForm(false); setEditingId(null); setForm(emptyForm); setError(null); setSuccess(null);
+  }
+
+  async function handleImageUpload(file: File) {
+    setUploading(true); setError(null);
+    try {
+      const ext = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: uploadError } = await supabase.storage.from('article-images').upload(fileName, file);
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage.from('article-images').getPublicUrl(fileName);
+      setForm((prev) => ({ ...prev, image_url: urlData.publicUrl }));
+      setSuccess('Image uploaded successfully');
+    } catch (err: any) { setError(err.message || 'Failed to upload image'); }
+    setUploading(false);
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) handleImageUpload(file);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) handleImageUpload(file);
   }
 
   if (!authChecked) {
@@ -169,11 +196,47 @@ export default function AdminPage() {
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none text-sm resize-none font-mono"
                 placeholder="<p>Article content here</p>" />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
-              <input type="text" value={form.image_url} onChange={(e) => setForm((prev) => ({ ...prev, image_url: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none text-sm"
-                placeholder="https://..." />
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cover Image</label>
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
+              {form.image_url ? (
+                <div className="relative group">
+                  <img src={form.image_url} alt="Cover preview" className="w-full max-h-48 object-cover rounded-lg border border-gray-300 dark:border-gray-600" />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
+                    <button type="button" onClick={() => fileInputRef.current?.click()}
+                      className="inline-flex items-center gap-1.5 bg-white text-gray-900 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-100 transition-colors">
+                      <Upload size={14} /> Replace
+                    </button>
+                    <button type="button" onClick={() => setForm((prev) => ({ ...prev, image_url: '' }))}
+                      className="inline-flex items-center gap-1.5 bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-red-700 transition-colors">
+                      <Trash2 size={14} /> Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  onClick={() => !uploading && fileInputRef.current?.click()}
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                  className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-red-500 dark:hover:border-red-500 transition-colors"
+                >
+                  {uploading ? (
+                    <div className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
+                      <Loader2 size={24} className="animate-spin" />
+                      <span className="text-sm">Uploading...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
+                      <ImageIcon size={24} />
+                      <span className="text-sm font-medium">Click to upload or drag and drop</span>
+                      <span className="text-xs text-gray-400">PNG, JPG up to 5MB</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {form.image_url && (
+                <p className="text-xs text-gray-400 mt-1.5 truncate">{form.image_url}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Author</label>

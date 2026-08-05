@@ -24,7 +24,7 @@ export default function ShareButtons({ title, summary, slug }: ShareButtonsProps
   };
 
   const handleWhatsApp = () => {
-    const text = `${title}\n\n${summary}\n\n${articleUrl}`;
+    const text = `${articleUrl}`;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
       window.location.href = `whatsapp://send?text=${encodeURIComponent(text)}`;
@@ -38,15 +38,13 @@ export default function ShareButtons({ title, summary, slug }: ShareButtonsProps
   };
 
   const handleTwitter = () => {
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(articleUrl)}`, '_blank', 'width=600,height=400');
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}`, '_blank', 'width=600,height=400');
   };
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title,
-          text: summary,
           url: articleUrl,
         });
       } catch (err: any) {

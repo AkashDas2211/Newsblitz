@@ -8,10 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-9 h-9 bg-red-700 dark:bg-red-800 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-base">N</span>
-              </div>
-              <h3 className="text-lg font-bold text-white">News Blitzz</h3>
+              <img src="/assets/images/WhatsApp_Image_2026-07-24_at_09.44.09.jpeg" alt="News Blitzz" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
               Stay updated with the latest news from India and the world.

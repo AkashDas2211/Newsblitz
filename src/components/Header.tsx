@@ -41,13 +41,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2.5 no-underline">
-            <div className="w-10 h-10 bg-red-700 dark:bg-red-800 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">News Blitzz</h1>
-              <p className="text-[10px] text-gray-500 dark:text-gray-300 tracking-widest uppercase">India's Leading News</p>
-            </div>
+            <img src="/assets/images/WhatsApp_Image_2026-07-24_at_09.44.09.jpeg" alt="News Blitzz" className="h-12 w-auto object-contain" />
           </Link>
 
           {/* Desktop nav */}

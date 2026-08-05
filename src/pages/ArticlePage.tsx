@@ -133,7 +133,7 @@ export default function ArticlePage() {
       </figure>
 
       <div
-        className="prose prose-lg max-w-none mb-8 prose-headings:text-gray-900 dark:prose-headings:text-white [&_li]:dark:text-white [&_strong]:dark:text-white prose-headings:font-semibold prose-p:text-gray-700 dark:prose-p:text-white prose-p:leading-relaxed prose-a:text-red-700 dark:prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline"
+        className="prose prose-lg max-w-none mb-8 prose-headings:text-gray-900 dark:prose-headings:text-white [&_p]:dark:text-gray-100 [&_li]:dark:text-gray-100 [&_strong]:dark:text-white [&_span]:dark:text-gray-100 [&_a]:dark:text-red-400 [&_blockquote]:dark:text-gray-200 [&_code]:dark:text-gray-100 [&_h1]:dark:text-white [&_h2]:dark:text-white [&_h3]:dark:text-white [&_h4]:dark:text-white [&_h5]:dark:text-white [&_h6]:dark:text-white prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-red-700 dark:prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline"
         dangerouslySetInnerHTML={{ __html: article.content }}
       />
 
