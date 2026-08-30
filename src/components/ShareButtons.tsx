@@ -6,7 +6,7 @@ type ShareButtonsProps = { title: string; summary: string; slug: string; imageUr
 export default function ShareButtons({ title, summary, slug }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const shareUrl = `${supabaseUrl}/functions/v1/og-preview/article/${slug}`;
+  const shareUrl = `${supabaseUrl}/functions/v1/og-preview/${encodeURIComponent(slug)}`;
 
   const handleCopy = async () => {
     try {

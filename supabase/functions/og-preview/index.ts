@@ -28,10 +28,10 @@ Deno.serve(async (req: Request) => {
   }
 
   const url = new URL(req.url);
-  // Expected path: /og-preview/article/<slug>
+  // Expected path: /og-preview/<slug>
   const parts = url.pathname.split("/").filter(Boolean);
-  // parts = ["og-preview", "article", "<slug>"]
-  const slug = parts.length >= 3 ? parts[2] : "";
+  // parts = ["og-preview", "<slug>"]
+  const slug = parts.length >= 2 ? decodeURIComponent(parts[1]) : "";
 
   if (!slug) {
     return new Response("Missing slug", {
@@ -45,13 +45,13 @@ Deno.serve(async (req: Request) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
-    const { data: article, error } = await supabase
+    const { data: article } = await supabase
       .from("articles")
       .select("title, slug, summary, image_url, category, author, published_at")
       .eq("slug", slug)
       .maybeSingle();
 
-    const isBot = /whatsapp|facebook|twitter|linkedin|telegram|slack|discord|googlebot|facebookexternalhit|skypeuripreview|pinterest/i.test(
+    const isBot = /whatsapp|facebook|twitter|linkedin|telegram|slack|discord|googlebot|facebookexternalhit|skypeuripreview|pinterest|iframely|preview|bot|crawler|spider/i.test(
       req.headers.get("user-agent") || ""
     );
 
